@@ -7,23 +7,20 @@ paper_venue: "NINeS 2026"
 paper_url: "https://doi.org/10.4230/OASIcs.NINeS.2026.19"
 week: 5
 tags: [datacenter, transport, ai-training]
+updated: 2026-11-05
+class_date: 2026-10-22
 ---
 
-## Key Idea
+## Key idea
 
-TODO: write in your own words.
-
-- Problem: AI training collectives (All-Reduce, All-to-All) are bursty, especially with MoE models; on lossy commodity datacenter networks a few dropped packets create stragglers that blow up collective completion time (CCT).
-- Idea: a shadow network running at 1/100th the rate with 100x smaller packets. A tiny Sim packet probes a random path first; if it survives, the real Data packet sent later on the same path should survive too.
-- Approximation on commodity switches: separate Sim/Data queues via traffic class partitioning, Sim queue at strict priority but token-bucket rate-limited, tiny buffers (B=12, 64-byte Sims vs 9KB jumbo Datas). Failed Sim means re-probe a new path; Data goes out a fixed RTTmax after its Sim.
-- Results: faster CCTs, small queues, virtually zero loss, holds up under oversubscription.
+dcSim sends a small probe along a candidate path before releasing its corresponding data packet, aiming to avoid losses that create stragglers in training collectives. Separate probe and data queues, rate-limited probe priority, and a fixed delay between probe and data are designed to make probe outcomes predict whether the larger packet can traverse the path.
 
 ## Critique
 
-TODO: write in your own words.
-
-- What is convincing, what is not, what is missing? Consider: the capacity traded for Sims, the RTTmax assumption, and that Sim success makes Data loss unlikely rather than impossible. Contrast with pHost/dcPIM (receiver tokens, no network visibility) and ExpressPass/Harmony (need non-commodity switch features).
+The proposal is compelling because it shifts effort from recovering dropped data to avoiding those drops, and the evaluation reports low collective completion times with very little loss. However, the paper also gives a multistage counterexample where a successful probe does not guarantee data delivery. That qualification matters: the practical result depends on scheduling and timing assumptions, so a convincing deployment study should examine failures, mixed traffic, and the capacity consumed by probe traffic rather than calling the network strictly lossless.
 
 ## Connections
 
-TODO: link to earlier posts where relevant.
+This extends the [No Signal to Rule Them All reading](https://gavinnwang.github.io/cs440-blog/2026/10/15/no-signal-to-rule-them-all/) by making the congestion signal an advance experiment along a path. Both readings raise the question of how much control a sender can obtain from information that is necessarily incomplete or delayed.
+
+AI assistance: AI was used to help draft and organize this post.

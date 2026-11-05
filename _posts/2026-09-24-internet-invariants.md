@@ -7,18 +7,20 @@ paper_venue: "NINeS 2026"
 paper_url: "https://nines-conference.org/papers/p022-Misa.pdf"
 week: 1
 tags: [architecture, invariants, traffic, self-similarity]
+updated: 2026-11-05
+class_date: 2026-09-29
 ---
 
-## Key Idea
+## Key idea
 
-Certain statistical properties of Internet traffic — self-similar scaling in time, multifractal scaling of IP addresses in space — have held for 30 years, but nobody has explained *why*. This paper proposes a three-part framework: reproducible evidence, a generative model grounded in real mechanisms, and an architectural justification using Highly Optimized Tolerance (HOT). The core claim is that these invariants are not emergent accidents but signatures of deliberate design trade-offs.
+This paper argues that persistent patterns in Internet traffic need an explanation, not just a statistical description. It uses a framework centered on Highly Optimized Tolerance to connect measured scaling behavior with possible underlying design tradeoffs, particularly how address-allocation mechanisms could produce spatial patterns that look multifractal.
 
 ## Critique
 
-The framework is intellectually clean, but the paper acknowledges it is work-in-progress — HOT is shown to *plausibly* explain the invariants, not proven to be the right (or only) lens. Self-organized criticality is dismissed quickly; a head-to-head comparison on the same data would be more convincing. Still, the reverse-engineering framing is genuinely useful: if we know *why* an invariant holds, we can predict when it will break.
+The reverse-engineering perspective is useful because it asks which constrained design problem could generate an observed regularity and then considers what that explanation might imply for future designs. However, reproducing a pattern with a plausible optimization model does not establish that the same mechanism caused the measured pattern. A stronger test would identify observations that distinguish competing explanations and check whether the proposed mechanism predicts behavior outside the examples used to motivate it.
 
 ## Connections
 
-This is the first post — no backward links yet. But I expect the HOT framing to resurface when we discuss congestion control (Week 4) and datacenter transport (Week 5). If self-similarity comes from how users consume content, what happens when the traffic mix shifts to ML training workloads?
+Looking back across the quarter, [Raha](https://gavinnwang.github.io/cs440-blog/2026/10/06/raha-wan-degradation/) makes this concern concrete by showing how network behavior depends on the conditions under which a design is exercised. Both readings encourage separating a useful model from a claim that the model will remain valid when workload or operational assumptions change.
 
-*I will update this section as the quarter progresses.*
+AI assistance: AI was used to help draft and organize this post.
